@@ -1,12 +1,10 @@
 'use server';
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ID, Query } from "node-appwrite";
 import { parseStringify } from "../utils";
 import {users} from "../appwrite.config";
 export const createUser = async (user: CreateUserParams) => {
   try {
-    // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
     const newuser = await users.create(
       ID.unique(),
       user.email,
