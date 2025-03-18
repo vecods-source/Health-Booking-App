@@ -69,7 +69,7 @@ const PatientForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
         <section className="mb-12 space-y-4">
           <h1 className="text-[45px] font-[700]">Hi there...</h1>
-          <p className="text-dark-700">Get Started with Appointments.</p>
+          <p className="text-dark-700 mt-0">Get Started with Appointments.</p>
         </section>
         <CustomFormFeild
           control={form.control}

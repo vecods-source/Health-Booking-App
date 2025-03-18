@@ -17,6 +17,9 @@ import {
 import { Control } from "react-hook-form";
 import { Input } from "./ui/input";
 import { FormFeildType } from "./forms/patientForm";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 interface CustomProps {
   control: Control<any>;
   fieldType: FormFeildType;
@@ -26,13 +29,22 @@ interface CustomProps {
   iconSrc?: string;
   iconAlt?: string;
   disabled?: boolean;
-  dataFormat?: string;
-  showTimeSelect?: boolean;
   children?: React.ReactNode;
+  dateFormat?: string;
+  showTimeSelected?: boolean;
+
   renderSkeleton?: (field: any) => React.ReactNode;
 }
 const RenderFeild = ({ field, props }: { field: any; props: CustomProps }) => {
-  const { fieldType, placeholder, iconSrc, iconAlt } = props;
+  const {
+    fieldType,
+    placeholder,
+    iconSrc,
+    iconAlt,
+    showTimeSelected,
+    dateFormat,
+    renderSkeleton,
+  } = props;
   switch (fieldType) {
     case FormFeildType.INPUT:
       return (
@@ -70,6 +82,31 @@ const RenderFeild = ({ field, props }: { field: any; props: CustomProps }) => {
           />
         </FormControl>
       );
+    case FormFeildType.DATA_PICKER:
+      return (
+        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+          <Image
+            src="/assets/icons/calendar.svg"
+            height={24}
+            width={24}
+            alt="calender"
+            className="ml-2"
+          />
+          <FormControl>
+            <DatePicker
+              selected={field.value}
+              onChange={(date) => field.onChange(date)}
+              dateFormat={dateFormat ?? "MM/dd/yyyy"}
+              showTimeSelect={showTimeSelected ?? false}
+              timeInputLabel="Time:"
+              wrapperClassName="date-picker"
+              placeholderText="Select date"
+            />
+          </FormControl>
+        </div>
+      );
+    case FormFeildType.SKELETON:
+      return renderSkeleton ? renderSkeleton(field) : null;
     default:
       break;
   }
@@ -84,7 +121,7 @@ function CustomFormFeild(props: CustomProps) {
       render={({ field }) => (
         <FormItem className="flex-1">
           {fieldType !== FormFeildType.CHECKBOX && label && (
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className="text-white/60 font-thin">{label}</FormLabel>
           )}
 
           <RenderFeild field={field} props={props} />

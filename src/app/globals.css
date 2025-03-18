@@ -348,3 +348,20 @@
 .PhoneInputInput::placeholder {
   color: #1a1d21;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type="date"] {
+  appearance: none;
+  -moz-appearance: textfield;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #1A1D21 inset !important;
+  background-clip: padding-box;
+}
