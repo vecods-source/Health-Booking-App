@@ -23,10 +23,15 @@ import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFeildType } from "./patientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Doctors, GenderOptions } from "../../../constants";
+import {
+  Doctors,
+  GenderOptions,
+  IdentificationTypes,
+} from "../../../constants";
 import { Label } from "@radix-ui/react-label";
 import Image from "next/image";
 import { SelectItem } from "../ui/select";
+import FileUploader from "../ui/fileUploader";
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
@@ -245,6 +250,78 @@ const RegisterForm = ({ user }: { user: User }) => {
             placeholder="ex: Asthma diagnosis in childhood"
           />
         </div>
+        {/* section 3 */}
+        <section className="space-y-6 ">
+          <div className="!mb-2 space-y-1">
+            <h1 className="sub-header">Medical Information</h1>
+          </div>
+        </section>
+        <div className="!mt-[18px]">
+          <CustomFormFeild
+            fieldType={FormFeildType.SELECT}
+            control={form.control}
+            name="identificationType"
+            label="Identification Type"
+            placeholder="Select identification type"
+          >
+            {IdentificationTypes.map((type, i) => (
+              <SelectItem key={type + i} value={type}>
+                {type}
+              </SelectItem>
+            ))}
+          </CustomFormFeild>
+        </div>
+        <div className="!mt-[10px]">
+          <CustomFormFeild
+            fieldType={FormFeildType.INPUT}
+            control={form.control}
+            name="identificationNumber"
+            label="Identification Number"
+            placeholder="123456789"
+          />
+        </div>
+        <div className="!mt-[10px]">
+          <CustomFormFeild
+            fieldType={FormFeildType.SKELETON}
+            control={form.control}
+            name="identificationDocument"
+            label="Scanned Copy of Identification Document"
+            renderSkeleton={(field) => (
+              <FormControl>
+                <FileUploader files={field.value} onChange={field.onChange} />
+              </FormControl>
+            )}
+          />
+        </div>
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">Consent and Privacy</h2>
+          </div>
+
+          <CustomFormFeild
+            fieldType={FormFeildType.CHECKBOX}
+            control={form.control}
+            name="treatmentConsent"
+            label="I consent to receive treatment for my health condition."
+          />
+
+          <CustomFormFeild
+            fieldType={FormFeildType.CHECKBOX}
+            control={form.control}
+            name="disclosureConsent"
+            label="I consent to the use and disclosure of my health
+            information for treatment purposes."
+          />
+
+          <CustomFormFeild
+            fieldType={FormFeildType.CHECKBOX}
+            control={form.control}
+            name="privacyConsent"
+            label="I acknowledge that I have reviewed and agree to the
+            privacy policy"
+          />
+        </section>
+
         <SubmitButton isLoading={isLoading} loadingText="just a second...">
           Get Started
         </SubmitButton>
