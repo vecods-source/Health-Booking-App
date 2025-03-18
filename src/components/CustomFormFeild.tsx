@@ -19,6 +19,8 @@ import { Input } from "./ui/input";
 import { FormFeildType } from "./forms/patientForm";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+import { Textarea } from "./ui/textarea";
 
 interface CustomProps {
   control: Control<any>;
@@ -107,6 +109,32 @@ const RenderFeild = ({ field, props }: { field: any; props: CustomProps }) => {
       );
     case FormFeildType.SKELETON:
       return renderSkeleton ? renderSkeleton(field) : null;
+    case FormFeildType.SELECT:
+      return (
+        <FormControl>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className="shad-select-trigger">
+                <SelectValue placeholder={props.placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent className="shad-select-content">
+              {props.children}
+            </SelectContent>
+          </Select>
+        </FormControl>
+      );
+    case FormFeildType.TEXTAREA:
+      return (
+        <FormControl>
+          <Textarea
+            placeholder={props.placeholder}
+            {...field}
+            className="shad-textArea resize-none"
+            disabled={props.disabled}
+          />
+        </FormControl>
+      );
     default:
       break;
   }

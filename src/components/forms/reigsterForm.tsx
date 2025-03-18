@@ -23,9 +23,10 @@ import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFeildType } from "./patientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { GenderOptions } from "../../../constants";
+import { Doctors, GenderOptions } from "../../../constants";
 import { Label } from "@radix-ui/react-label";
-
+import Image from "next/image";
+import { SelectItem } from "../ui/select";
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
@@ -64,7 +65,7 @@ const RegisterForm = ({ user }: { user: User }) => {
       >
         <section className="space-y-4">
           <h1 className="text-[45px] font-[700]">Welcome</h1>
-          <p className="text-dark-700 mt-0">Let us know more about yourself</p>
+          <p className="text-dark-700 !mt-0">Let us know more about yourself</p>
         </section>
         <section className="space-y-6 ">
           <div className="!mb-2 space-y-1">
@@ -88,7 +89,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             fieldType={FormFeildType.INPUT}
             name="email"
             label="Email address"
-            placeholder="ex: Khalid"
+            placeholder="khalid.saad@hotmail.com"
             iconSrc="/assets/icons/email.svg"
             iconAlt="email"
           />
@@ -147,19 +148,15 @@ const RegisterForm = ({ user }: { user: User }) => {
             name="occupation"
             label="Occupation"
             placeholder="ex: Civil Engineer"
-            iconSrc="/assets/icons/user.svg"
-            iconAlt="user"
           />
         </div>
         <div className="flex flex-col gap-6 xl:flex-row !mt-[10px]">
           <CustomFormFeild
             control={form.control}
             fieldType={FormFeildType.INPUT}
-            name="emergency-contact-name"
+            name="emergencyContact"
             label="Emergency contact name"
-            placeholder="ex: Civil Engineer"
-            iconSrc="/assets/icons/user.svg"
-            iconAlt="user"
+            placeholder="Guardian's name"
           />
           <CustomFormFeild
             control={form.control}
@@ -176,6 +173,78 @@ const RegisterForm = ({ user }: { user: User }) => {
             <h1 className="sub-header">Medical Information</h1>
           </div>
         </section>
+        <div className="!mt-[18px]">
+          <CustomFormFeild
+            fieldType={FormFeildType.SELECT}
+            control={form.control}
+            name="primaryPhysician"
+            label="Primary care physician"
+            placeholder="Select a physician"
+          >
+            {Doctors.map((doctor, i) => (
+              <SelectItem key={doctor.name + i} value={doctor.name}>
+                <div className="flex cursor-pointer items-center gap-2">
+                  <Image
+                    src={doctor.image}
+                    width={32}
+                    height={32}
+                    alt="doctor"
+                    className="rounded-full border border-dark-500"
+                  />
+                  <p>{doctor.name}</p>
+                </div>
+              </SelectItem>
+            ))}
+          </CustomFormFeild>
+        </div>
+        <div className="flex flex-col gap-6 xl:flex-row !mt-[10px]">
+          <CustomFormFeild
+            control={form.control}
+            fieldType={FormFeildType.INPUT}
+            name="InsuranceProvider"
+            label="Insurance provider"
+            placeholder="ex: JBK"
+          />
+          <CustomFormFeild
+            control={form.control}
+            fieldType={FormFeildType.INPUT}
+            name="InsurancePolicy"
+            label="Insurance policy number"
+            placeholder="ex: ABC1234567"
+          />
+        </div>
+        <div className="flex flex-col gap-6 xl:flex-row !mt-[10px]">
+          <CustomFormFeild
+            control={form.control}
+            fieldType={FormFeildType.TEXTAREA}
+            name="allergies"
+            label="Allergies (if any)"
+            placeholder="ex: Peanuts, Penicillin, Pollen"
+          />
+          <CustomFormFeild
+            control={form.control}
+            fieldType={FormFeildType.TEXTAREA}
+            name="currentMedications"
+            label="Current medications"
+            placeholder="ex: Ibuprofen 200mg, Levothyroxine 50mcg"
+          />
+        </div>
+        <div className="flex flex-col gap-6 xl:flex-row !mt-[10px]">
+          <CustomFormFeild
+            control={form.control}
+            fieldType={FormFeildType.TEXTAREA}
+            name="familyMed"
+            label="Family medical history (if relevant)"
+            placeholder="ex: Mother had cancer"
+          />
+          <CustomFormFeild
+            control={form.control}
+            fieldType={FormFeildType.TEXTAREA}
+            name="pastMedical"
+            label="Past medical history"
+            placeholder="ex: Asthma diagnosis in childhood"
+          />
+        </div>
         <SubmitButton isLoading={isLoading} loadingText="just a second...">
           Get Started
         </SubmitButton>
