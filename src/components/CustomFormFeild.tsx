@@ -66,7 +66,7 @@ const RenderFeild = ({ field, props }: { field: any; props: CustomProps }) => {
               placeholder={placeholder}
               {...field}
               className="shad-input border-0"
-              style={{ borderRadius: "0px 5px 5px 0" }}
+              onBlur={field.onBlur}
             />
           </FormControl>
         </div>
@@ -82,6 +82,7 @@ const RenderFeild = ({ field, props }: { field: any; props: CustomProps }) => {
             value={field.value}
             onChange={field.onChange}
             className="shad-input input-phone"
+            onBlur={field.onBlur}
           />
         </FormControl>
       );

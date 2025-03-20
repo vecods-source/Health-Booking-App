@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import CustomFormFeild from "@/components/CustomFormFeild";
 import SubmitButton from "../ui/submitButton";
 import { useState } from "react";
-import UserFormValidation from "@/lib/UserFormValidation";
+import { UserFormValidation } from "@/lib/UserFormValidation";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 
@@ -37,6 +37,7 @@ const PatientForm = () => {
   const [isLoading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof UserFormValidation>>({
+    mode: "onBlur",
     resolver: zodResolver(UserFormValidation),
     defaultValues: {
       name: "",
